@@ -1,0 +1,28 @@
+{
+  "name": "poc-node-multi-threading",
+  "version": "1.0.0",
+  "description": "POC of Node multi-threading",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeonardoNevesDuarte/poc-node-multi-threading.git"
+  },
+  "keywords": [
+    "node",
+    "node.js",
+    "multi-threading"
+  ],
+  "author": "Leonardo Neves Duarte",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/LeonardoNevesDuarte/poc-node-multi-threading/issues"
+  },
+  "homepage": "https://github.com/LeonardoNevesDuarte/poc-node-multi-threading#readme",
+  "dependencies": {
+    "figlet": "^1.5.2"
+  }
+}
