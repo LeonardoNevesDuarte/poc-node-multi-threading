@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./index.js"
+    "start": "node ./src/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,9 @@
   },
   "homepage": "https://github.com/LeonardoNevesDuarte/poc-node-multi-threading#readme",
   "dependencies": {
-    "figlet": "^1.5.2"
+    "figlet": "^1.5.2",
+    "moment": "^2.29.4",
+    "uuid": "^8.3.2",
+    "winston": "^3.8.1"
   }
 }
