@@ -1,7 +1,11 @@
 const { Worker } = require("worker_threads");
 const figlet = require('figlet');
+const logger = require('./logger');
 const welcomeMsg = 'Multi-threading with Node';
 const os = require('os');
+const THREADS_AMOUNT = 4;
+const user = 'MAIN';
+const uuid = require('uuid');
 
 const main = () => {
   console.log('Starting POC...');
@@ -12,6 +16,32 @@ const main = () => {
   console.log('OS # CPUs: ', os.cpus().length);
   console.log('OS CPU type: ', os.cpus()[0].model);
   console.log('');
+
+  // Array of promises
+  const promises = [];
+  for (let idx = 0; idx < THREADS_AMOUNT; idx += 1) {
+    let threadId = uuid.v4().toUpperCase();
+    logger.info(user, 'Creating thread #' + threadId);
+    promises.push(
+      new Promise((resolve) => {
+        const worker = new Worker('./src/thread.js', {
+          workerData: {
+            workerId: threadId,
+          }
+        });
+        worker.on('exit', () => {
+          logger.info(user, 'Closing thread #' + threadId);
+          resolve();
+        });
+        worker.on('message', (value) => {
+          logger.info(user, `Message received from thread: ${value}`);
+          resolve();
+        });
+      })
+    );
+  }
+  // Handle the resolution of all promises
+  return Promise.all(promises);
 };
 
 const intro = async () => {
@@ -39,46 +69,3 @@ const intro = async () => {
 };
 
 intro();
-
-/*
-//Auto execute function
-(() => {
-  // Array of promises
-  const promises = [];
-  for (let idx = 0; idx < THREADS_AMOUNT; idx += 1) {
-    console.log('creating thread ' + (idx + 1));
-    promises.push(
-      new Promise((resolve) => {
-        const worker = new Worker('./src/thread-entry.js', {
-          workerData: {
-            workerId: (idx + 1),
-          }
-        });
-        console.log('Thread Id: ', worker.threadId);
-        worker.on('exit', () => {
-          console.log('closing thread of: ', (idx + 1));
-          resolve();
-        });
-        worker.on('message', (value) => {
-          console.log(`message received from ${(idx + 1)}: ${value}`);
-          resolve();
-        });
-      })
-    );
-  }
-  // Handle the resolution of all promises
-  return Promise.all(promises);
-})().then(() => {
-  canCheckThreads = false;
-});
-*/
-
-function infiniteLoop() {
-  setTimeout(() => {
-    if (canCheckThreads) {
-      console.log('Threads still running...');
-      infiniteLoop();
-    }
-  }, 1000);
-}
-
