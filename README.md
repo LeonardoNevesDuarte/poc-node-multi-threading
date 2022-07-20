@@ -20,8 +20,8 @@ git push -u origin develop
 
 ## Dependencies
 * Node modules:
-* figlet
-* moment
+ * figlet
+* * moment
 * uuid
 * winston
 
