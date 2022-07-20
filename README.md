@@ -25,4 +25,5 @@
 
 ## Running the POC
 * Execute the POC by running the command at the app root folder ```rpm run start```
+
 ![It will look like this](others/screenshot.png)
