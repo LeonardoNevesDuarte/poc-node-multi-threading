@@ -5,6 +5,7 @@
 * [General Information](#general-information)
 * [Dependencies](#dependencies)
 * [Setup](#setup)
+* [Running the POC](#running-the-poc)
 
 ## General Information
 * This POC was built on Node.js com
@@ -21,4 +22,7 @@
 ## Setup
 * Clone the repo by running ```git clone https://github.com/LeonardoNevesDuarte/poc-node-multi-threading```
 * Install dependencies by running ```npm install```
+
+## Running the POC
 * Execute the POC by running the command at the app root folder ```rpm run start```
+![It will look like this](others/screenshot.png)
