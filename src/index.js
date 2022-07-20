@@ -1,10 +1,8 @@
 const { Worker } = require("worker_threads");
 const figlet = require('figlet');
 const logger = require('./logger');
-const welcomeMsg = 'Multi-threading with Node';
+const CONSTANTS = require('../config/constants');
 const os = require('os');
-const THREADS_AMOUNT = 4;
-const user = 'MAIN';
 const uuid = require('uuid');
 
 const main = () => {
@@ -19,9 +17,9 @@ const main = () => {
 
   // Array of promises
   const promises = [];
-  for (let idx = 0; idx < THREADS_AMOUNT; idx += 1) {
+  for (let idx = 0; idx < CONSTANTS.RUNTIME_ENV.THREADS_AMOUNT; idx += 1) {
     let threadId = uuid.v4().toUpperCase();
-    logger.info(user, 'Creating thread #' + threadId);
+    logger.info(CONSTANTS.RUNTIME_ENV.USER, 'Creating thread #' + threadId);
     promises.push(
       new Promise((resolve) => {
         const worker = new Worker('./src/thread.js', {
@@ -30,11 +28,11 @@ const main = () => {
           }
         });
         worker.on('exit', () => {
-          logger.info(user, 'Closing thread #' + threadId);
+          logger.info(CONSTANTS.RUNTIME_ENV.USER, 'Closing thread #' + threadId);
           resolve();
         });
         worker.on('message', (value) => {
-          logger.info(user, `Message received from thread: ${value}`);
+          logger.info(CONSTANTS.RUNTIME_ENV.USER, `Message received from thread: ${value}`);
           resolve();
         });
       })
@@ -45,7 +43,7 @@ const main = () => {
 };
 
 const intro = async () => {
-  figlet.text(welcomeMsg, {
+  figlet.text(CONSTANTS.MESSAGES.WELCOME_MSG, {
     font: 'Slant',
     horizontalLayout: 'default',
     verticalLayout: 'default',
@@ -59,8 +57,9 @@ const intro = async () => {
     }
     console.log(data);
     console.log('');
-    console.log('Built by Leonardo Neves Duarte');
-    console.log('https://github.com/LeonardoNevesDuarte/poc-node-multi-threading');
+    console.log(CONSTANTS.MESSAGES.AUTHOR_MSG);
+    console.log(CONSTANTS.MESSAGES.GIT_REF);
+    console.log('Version ', CONSTANTS.MESSAGES.VERSION);
     console.log('');
 
     main();
